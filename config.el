@@ -324,33 +324,44 @@
 (add-hook! '+doom-dashboard-mode-hook (hide-mode-line-mode 1) (hl-line-mode -1))
 (setq-hook! '+doom-dashboard-mode-hook evil-normal-state-cursor (list nil))
 
-
 (after! ess-mode
-  (setq ess-style 'C++
-        ;; don't wait when evaluating
-        ess-eval-visibly-p 'nowait
-        ;; scroll buffer to bottom
-        comint-scroll-to-bottom-on-output t)
-        ;; Open ESS R window to the left iso bottom.
-        ;; (set-popup-rule! "^\\*R.*\\*$" :side 'left :size 0.38 :select nil :ttl nil :quit nil :modeline t)
+  (setq! ess-use-flymake nil)
+  (setq! lsp-ui-doc-enable nil
+         lsp-ui-doc-delay 1.5)
+
+  (setq
+   ess-style 'RStudio
+   ess-offset-continued 2
+   ess-expression-offset 0
+   comint-scroll-to-bottom-on-output t)
+
+  (setq ess-R-font-lock-keywords
+        '((ess-R-fl-keyword:modifiers  . t)
+          (ess-R-fl-keyword:fun-defs   . t)
+          (ess-R-fl-keyword:keywords   . t)
+          (ess-R-fl-keyword:assign-ops . t)
+          (ess-R-fl-keyword:constants  . t)
+          (ess-fl-keyword:fun-calls    . t)
+          (ess-fl-keyword:numbers      . t)
+          (ess-fl-keyword:operators    . t)
+          (ess-fl-keyword:delimiters) ; don't because of rainbow delimiters
+          (ess-fl-keyword:=            . t)
+          (ess-R-fl-keyword:F&T        . t)
+          (ess-R-fl-keyword:%op%       . t)))
+
+  ;; ESS buffers should not be cleaned up automatically
+  (add-hook 'inferior-ess-mode-hook #'doom-mark-buffer-as-real-h)
+
+  (define-key ess-mode-map "_" #'ess-insert-assign)
+  (define-key inferior-ess-mode-map "_" #'ess-insert-assign)
+
+  (defun kh_then_R_operator ()
+    "R - %>% operator or 'then' pipe operator"
+    (interactive)
+    (just-one-space 1)
+    (insert "%>%")
+    (reindent-then-newline-and-indent))
+  (define-key ess-mode-map (kbd "C-|") 'kh_then_R_operator)
+  (define-key inferior-ess-mode-map (kbd "C-|") 'kh_then_R_operator)
+
   )
-
-;; Assignment in ESS is shift-minus; by extension we'll use M-shift-minus for inserting the `%>%` operator.
-(defun my_pipe_operator ()
-  "R/ESS %>% operator"
-  (interactive)
-  (just-one-space 1)
-  (insert "%>%")
-  (reindent-then-newline-and-indent))
-(define-key ess-mode-map (kbd "M-_") 'my_pipe_operator)
-(define-key inferior-ess-mode-map (kbd "M-_") 'my_pipe_operator)
-
-
-;;;Insert new chunk for Rmarkdown
-(defun kjh-insert-r-chunk (header)
-  "Insert an r-chunk in markdown mode."
-  (interactive "sLabel: ")
-  (insert (concat "```{r " header "}\n\n```"))
-  (forward-line -1))
-
-(global-set-key (kbd "C-c i") 'kjh-insert-r-chunk)
