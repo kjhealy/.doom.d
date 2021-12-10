@@ -34,14 +34,18 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 
-(setq doom-theme 'doom-vibrant)
+(setq doom-theme 'doom-nord)
+;;(setq doom-theme 'doom-vibrant)
 ;;(setq doom-theme 'spacemacs-light)
 ;;(setq doom-theme 'doom-nord-light) ;;OK
-;;NO (setq doom-theme 'doom-solarized-light)
 ;; (setq doom-theme 'doom-one-light) ;;MAYBE
 ;;NO (setq doom-theme 'doom-opera-light)
 ;;NO (setq doom-theme 'doom-tomorrow-day)
 ;;NO (setq doom-theme 'doom-acario-light)
+
+(with-eval-after-load 'doom-themes
+  (doom-themes-treemacs-config)
+  (doom-themes-org-config))
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
