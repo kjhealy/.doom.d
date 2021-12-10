@@ -22,9 +22,8 @@
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 
-(setq doom-font (font-spec :family "IBM Plex Mono" :size 12 :weight 'regular)
+(setq doom-font (font-spec :family "IBM Plex Mono" :size 13 :weight 'regular)
       doom-variable-pitch-font (font-spec :family "IBM Plex Sans" :size 14))
-
 
 (add-to-list 'default-frame-alist '(height . 24))
 (add-to-list 'default-frame-alist '(width . 80))
@@ -324,3 +323,34 @@
 (remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
 (add-hook! '+doom-dashboard-mode-hook (hide-mode-line-mode 1) (hl-line-mode -1))
 (setq-hook! '+doom-dashboard-mode-hook evil-normal-state-cursor (list nil))
+
+
+(after! ess-mode
+  (setq ess-style 'C++
+        ;; don't wait when evaluating
+        ess-eval-visibly-p 'nowait
+        ;; scroll buffer to bottom
+        comint-scroll-to-bottom-on-output t)
+        ;; Open ESS R window to the left iso bottom.
+        ;; (set-popup-rule! "^\\*R.*\\*$" :side 'left :size 0.38 :select nil :ttl nil :quit nil :modeline t)
+  )
+
+;; Assignment in ESS is shift-minus; by extension we'll use M-shift-minus for inserting the `%>%` operator.
+(defun my_pipe_operator ()
+  "R/ESS %>% operator"
+  (interactive)
+  (just-one-space 1)
+  (insert "%>%")
+  (reindent-then-newline-and-indent))
+(define-key ess-mode-map (kbd "M-_") 'my_pipe_operator)
+(define-key inferior-ess-mode-map (kbd "M-_") 'my_pipe_operator)
+
+
+;;;Insert new chunk for Rmarkdown
+(defun kjh-insert-r-chunk (header)
+  "Insert an r-chunk in markdown mode."
+  (interactive "sLabel: ")
+  (insert (concat "```{r " header "}\n\n```"))
+  (forward-line -1))
+
+(global-set-key (kbd "C-c i") 'kjh-insert-r-chunk)
