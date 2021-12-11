@@ -369,3 +369,7 @@
   (define-key inferior-ess-mode-map (kbd "C-|") 'kh_then_R_operator)
 
   )
+
+(map! "M-g g" #'avy-goto-line)
+(map! "M-g M-g" #'avy-goto-line)
+(map! "C-:" #'avy-goto-char)
