@@ -33,13 +33,6 @@
 ;; `load-theme' function. This is the default:
 
 (setq doom-theme 'doom-nord)
-;;(setq doom-theme 'doom-vibrant)
-;;(setq doom-theme 'spacemacs-light)
-;;(setq doom-theme 'doom-nord-light) ;;OK
-;; (setq doom-theme 'doom-one-light) ;;MAYBE
-;;NO (setq doom-theme 'doom-opera-light)
-;;NO (setq doom-theme 'doom-tomorrow-day)
-;;NO (setq doom-theme 'doom-acario-light)
 
 (with-eval-after-load 'doom-themes
   (doom-themes-treemacs-config)
