@@ -329,16 +329,19 @@
   (define-key ess-mode-map "_" #'ess-insert-assign)
   (define-key inferior-ess-mode-map "_" #'ess-insert-assign)
 
-  (defun kh_then_R_operator ()
+  (defun kh/then-R-operator ()
     "R - %>% operator or 'then' pipe operator"
     (interactive)
     (just-one-space 1)
     (insert "%>%")
     (reindent-then-newline-and-indent))
   (define-key ess-mode-map (kbd "C-|") 'kh_then_R_operator)
-  (define-key inferior-ess-mode-map (kbd "C-|") 'kh_then_R_operator)
+  (define-key inferior-ess-mode-map (kbd "C-|") 'kh/then-R-operator)
 
   )
+
+;; mirror R-Studio's cmd-shift-M binding for %>%
+(map! "s-M" #'kh/then-R-operator)
 
 ;; avy
 (map! "M-g g" #'avy-goto-line)
