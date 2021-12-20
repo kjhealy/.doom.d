@@ -347,3 +347,9 @@
 
 ;; comment region toggle
 (map! "C-c ;" #'comment-or-uncomment-region)
+
+;; Windows
+(map! "C-S-<left>" #'shrink-window-horizontally)
+(map! "C-S-<right>" #'enlarge-window-horizontally)
+(map! "C-S-<down>" #'shrink-window)
+(map! "C-S-<up>" #'enlarge-window)
