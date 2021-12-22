@@ -357,6 +357,12 @@
 (map! "C-S-<down>" #'shrink-window)
 (map! "C-S-<up>" #'enlarge-window)
 
+;; Make window selection numbers easily visible
+(custom-set-faces!
+  '(aw-leading-char-face
+    :foreground "white" :background "red"
+    :weight bold :height 2.5 :box (:line-width 10 :color "red")))
+
 (defun kjh/rotate-windows (arg)
   "Rotate your windows; use the prefix argument to rotate the other direction"
   (interactive "P")
