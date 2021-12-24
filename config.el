@@ -329,19 +329,19 @@
   (define-key ess-mode-map "_" #'ess-insert-assign)
   (define-key inferior-ess-mode-map "_" #'ess-insert-assign)
 
-  (defun kh/then-R-operator ()
+  (defun kjh/then-R-operator ()
     "R - %>% operator or 'then' pipe operator"
     (interactive)
     (just-one-space 1)
     (insert "%>%")
     (reindent-then-newline-and-indent))
-  (define-key ess-mode-map (kbd "C-|") 'kh_then_R_operator)
-  (define-key inferior-ess-mode-map (kbd "C-|") 'kh/then-R-operator)
+  (define-key ess-mode-map (kbd "C-|") 'kjh_then_R_operator)
+  (define-key inferior-ess-mode-map (kbd "C-|") 'kjh/then-R-operator)
 
   )
 
 ;; mirror R-Studio's cmd-shift-M binding for %>%
-(map! "s-M" #'kh/then-R-operator)
+(map! "s-M" #'kjh/then-R-operator)
 
 ;; avy
 (map! "M-g g" #'avy-goto-line)
@@ -387,20 +387,41 @@
 (map! "C-x m" #'kjh/rotate-windows)
 
 ;; Polymode
-;; Load
+(defun kjh/insert-r-chunk (header)
+  "Insert an r-chunk in markdown mode."
+  (interactive "sLabel: ")
+  (insert (concat "```{r " header "}\n\n```"))
+  (forward-line -1))
+
 (use-package! poly-R
-:config
-(map! (:localleader
-      :map polymode-mode-map
-      :desc "Export"   "e" 'polymode-export
-      :desc "Errors" "$" 'polymode-show-process-buffer
-      :desc "Weave" "w" 'polymode-weave
-      ;; (:prefix ("n" . "Navigation")
-      ;;   :desc "Next" "n" . 'polymode-next-chunk
-      ;;   :desc "Previous" "N" . 'polymode-previous-chunk)
-      ;; (:prefix ("c" . "Chunks")
-      ;;   :desc "Narrow" "n" . 'polymode-toggle-chunk-narrowing
-      ;;   :desc "Kill" "k" . 'polymode-kill-chunk
-      ;;   :desc "Mark-Extend" "m" . 'polymode-mark-or-extend-chunk)
-      ))
+  :config
+  (map! (:localleader
+         :map polymode-mode-map
+         :desc "Export"   "e" 'polymode-export
+         :desc "Errors" "$" 'polymode-show-process-buffer
+         :desc "Eval region or chunk" "v" 'polymode-eval-region-or-chunk
+         :desc "Eval from top" "v" 'polymode-eval-buffer-from-beg-to-point
+         :desc "Weave" "w" 'polymode-weave
+         :desc "New chunk" "c" 'kjh/insert-r-chunk
+         :desc "Next" "n" 'polymode-next-chunk
+         :desc "Previous" "p" 'polymode-previous-chunk
+         ;; (:prefix ("c" . "Chunks")
+         ;;   :desc "Narrow" "n" . 'polymode-toggle-chunk-narrowing
+         ;;   :desc "Kill" "k" . 'polymode-kill-chunk
+         ;;   :desc "Mark-Extend" "m" . 'polymode-mark-or-extend-chunk)
+         ))
   )
+
+
+
+
+
+;; Reftex
+;; Make RefTex able to find my local bib files
+(setq reftex-bibpath-environment-variables
+      '("/Users/kjhealy/Library/texmf/bibtex/bib"))
+
+;; Default bibliography
+(setq reftex-default-bibliography
+      '("/Users/kjhealy/Documents/bibs/socbib.bib"))
+
