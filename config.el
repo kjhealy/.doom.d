@@ -343,6 +343,11 @@
 ;; mirror R-Studio's cmd-shift-M binding for %>%
 (map! "s-M" #'kjh/then-R-operator)
 
+;; polymode
+(after! polymode
+  (add-to-list 'auto-mode-alist '("\\.Rmarkdown" . poly-markdown+r-mode))
+)
+
 ;; avy
 (map! "M-g g" #'avy-goto-line)
 (map! "M-g M-g" #'avy-goto-line)
@@ -425,3 +430,8 @@
 (setq reftex-default-bibliography
       '("/Users/kjhealy/Documents/bibs/socbib.bib"))
 
+;; Flycheck
+(after! flycheck
+  (map! :leader
+        (:prefix-map ("c" . "code")
+         "x" flycheck-command-map)))
