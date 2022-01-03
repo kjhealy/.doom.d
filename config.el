@@ -32,7 +32,9 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 
-(setq doom-theme 'doom-nord)
+(setq doom-theme 'doom-nord-light)
+
+
 
 (with-eval-after-load 'doom-themes
   (doom-themes-treemacs-config)
