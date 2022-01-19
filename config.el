@@ -447,10 +447,10 @@
   (define-key ess-mode-map (kbd "C-|") 'kjh/then_R_operator)
   (define-key inferior-ess-mode-map (kbd "C-|") 'kjh/then-R-operator)
 
-  )
+  ;; mirror R-Studio's cmd-shift-M binding for %>%
+  (map! "s-M" #'kjh/then-R-operator)
 
-;; mirror R-Studio's cmd-shift-M binding for %>%
-(map! "s-M" #'kjh/then-R-operator)
+  )
 
 ;; polymode
 (after! polymode
