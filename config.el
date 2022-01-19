@@ -91,8 +91,8 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-;; (setq org-directory "~/Dropbox \(Maestral\)/Org/")
-(setq org-directory "~/Dropbox/Org/")
+(setq org-directory "~/Dropbox \(Maestral\)/Org/")
+;; (setq org-directory "~/Dropbox/Org/")
 
 ;; Choose either listings or minted for exporting source code blocks.
 ;; Using minted (as here) requires pygments be installed. To use the
@@ -434,6 +434,7 @@
   ;; ESS buffers should not be cleaned up automatically
   (add-hook 'inferior-ess-mode-hook #'doom-mark-buffer-as-real-h)
 
+  ;; Assignment
   (define-key ess-mode-map "_" #'ess-insert-assign)
   (define-key inferior-ess-mode-map "_" #'ess-insert-assign)
 
