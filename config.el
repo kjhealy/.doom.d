@@ -444,7 +444,7 @@
     (just-one-space 1)
     (insert "%>%")
     (reindent-then-newline-and-indent))
-  (define-key ess-mode-map (kbd "C-|") 'kjh_then_R_operator)
+  (define-key ess-mode-map (kbd "C-|") 'kjh/then_R_operator)
   (define-key inferior-ess-mode-map (kbd "C-|") 'kjh/then-R-operator)
 
   )
