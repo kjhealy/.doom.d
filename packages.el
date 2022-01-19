@@ -16,6 +16,7 @@
 (package! pcre2el)
 (package! visual-regexp-steroids)
 
+(package! auctex)
 
 
 ;; To install a package directly from a remote git repo, you must specify a
