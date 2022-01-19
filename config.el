@@ -91,7 +91,8 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/Dropbox \(Maestral\)/Org/")
+;; (setq org-directory "~/Dropbox \(Maestral\)/Org/")
+(setq org-directory "~/Dropbox/Org/")
 
 ;; Choose either listings or minted for exporting source code blocks.
 ;; Using minted (as here) requires pygments be installed. To use the
