@@ -32,7 +32,7 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 
-(setq doom-theme 'doom-nord-light)
+(setq doom-theme 'doom-nord)
 
 (with-eval-after-load 'doom-themes
   (doom-themes-treemacs-config)
@@ -406,56 +406,6 @@
 (add-hook! '+doom-dashboard-mode-hook (hide-mode-line-mode 1) (hl-line-mode -1))
 (setq-hook! '+doom-dashboard-mode-hook evil-normal-state-cursor (list nil))
 
-(after! ess-mode
-  (setq! ess-use-flymake nil)
-  (setq! lsp-ui-doc-enable nil
-         lsp-ui-doc-delay 1.5)
-
-  (setq
-   ess-style 'RStudio
-   ess-offset-continued 2
-   ess-expression-offset 0
-   comint-scroll-to-bottom-on-output t)
-
-  (setq ess-R-font-lock-keywords
-        '((ess-R-fl-keyword:modifiers  . t)
-          (ess-R-fl-keyword:fun-defs   . t)
-          (ess-R-fl-keyword:keywords   . t)
-          (ess-R-fl-keyword:assign-ops . t)
-          (ess-R-fl-keyword:constants  . t)
-          (ess-fl-keyword:fun-calls    . t)
-          (ess-fl-keyword:numbers      . t)
-          (ess-fl-keyword:operators    . t)
-          (ess-fl-keyword:delimiters) ; don't because of rainbow delimiters
-          (ess-fl-keyword:=            . t)
-          (ess-R-fl-keyword:F&T        . t)
-          (ess-R-fl-keyword:%op%       . t)))
-
-  ;; ESS buffers should not be cleaned up automatically
-  (add-hook 'inferior-ess-mode-hook #'doom-mark-buffer-as-real-h)
-
-  ;; Assignment
-  (define-key ess-mode-map "_" #'ess-insert-assign)
-  (define-key inferior-ess-mode-map "_" #'ess-insert-assign)
-
-  (defun kjh/then-R-operator ()
-    "R - %>% operator or 'then' pipe operator"
-    (interactive)
-    (just-one-space 1)
-    (insert "%>%")
-    (reindent-then-newline-and-indent))
-  (define-key ess-mode-map (kbd "C-|") 'kjh/then_R_operator)
-  (define-key inferior-ess-mode-map (kbd "C-|") 'kjh/then-R-operator)
-
-  ;; mirror R-Studio's cmd-shift-M binding for %>%
-  (map! "s-M" #'kjh/then-R-operator)
-
-  )
-
-;; polymode
-(after! polymode
-  (add-to-list 'auto-mode-alist '("\\.Rmarkdown" . poly-markdown+r-mode))
-)
 
 ;; avy
 (map! "M-g g" #'avy-goto-line)
@@ -500,15 +450,84 @@
 
 (map! "C-x m" #'kjh/rotate-windows)
 
-;; Polymode
-(defun kjh/insert-r-chunk (header)
+;; Reftex
+;; Make RefTex able to find my local bib files
+(setq reftex-bibpath-environment-variables
+      '("/Users/kjhealy/Library/texmf/bibtex/bib"))
+
+;; Default bibliography
+(setq reftex-default-bibliography
+      '("/Users/kjhealy/Documents/bibs/socbib.bib"))
+
+;; Flycheck
+(after! flycheck
+  (map! :leader
+        (:prefix-map ("c" . "code")
+         "x" flycheck-command-map)))
+
+
+;; ESS
+(use-package! ess-mode
+
+  :config
+  (add-hook! 'ess-mode-hook
+    (setq! ess-use-flymake nil
+           lsp-ui-doc-enable nil
+           lsp-ui-doc-delay 1.5
+           polymode-lsp-integration nil
+           ess-style 'RStudio
+           ess-offset-continued 2
+           ess-expression-offset 0
+           comint-scroll-to-bottom-on-output t)
+
+  (setq! ess-R-font-lock-keywords
+        '((ess-R-fl-keyword:modifiers  . t)
+          (ess-R-fl-keyword:fun-defs   . t)
+          (ess-R-fl-keyword:keywords   . t)
+          (ess-R-fl-keyword:assign-ops . t)
+          (ess-R-fl-keyword:constants  . t)
+          (ess-fl-keyword:fun-calls    . t)
+          (ess-fl-keyword:numbers      . t)
+          (ess-fl-keyword:operators    . t)
+          (ess-fl-keyword:delimiters) ; don't because of rainbow delimiters
+          (ess-fl-keyword:=            . t)
+          (ess-R-fl-keyword:F&T        . t)
+          (ess-R-fl-keyword:%op%       . t)))
+  )
+
+  ;; ESS buffers should not be cleaned up automatically
+  (add-hook 'inferior-ess-mode-hook #'doom-mark-buffer-as-real-h)
+
+  ;; Assignment
+  (define-key ess-mode-map "_" #'ess-insert-assign)
+  (define-key inferior-ess-mode-map "_" #'ess-insert-assign)
+
+  (defun kjh/then-R-operator ()
+    "R - %>% operator or 'then' pipe operator"
+    (interactive)
+    (just-one-space 1)
+    (insert "%>%")
+    (reindent-then-newline-and-indent))
+  (define-key ess-mode-map (kbd "C-|") 'kjh/then_R_operator)
+  (define-key inferior-ess-mode-map (kbd "C-|") 'kjh/then-R-operator)
+
+  ;; mirror R-Studio's cmd-shift-M binding for %>%
+  (map! "s-M" #'kjh/then-R-operator)
+
+)
+
+
+;; polymode
+(use-package! poly-R
+  :config
+    (defun kjh/insert-r-chunk (header)
   "Insert an r-chunk in markdown mode."
   (interactive "sLabel: ")
   (insert (concat "```{r " header "}\n\n```"))
   (forward-line -1))
 
-(use-package! poly-R
-  :config
+  (add-to-list 'auto-mode-alist '("\\.Rmarkdown" . poly-markdown+r-mode))
+  (add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
   (map! (:localleader
          :map polymode-mode-map
          :desc "Export"   "e" 'polymode-export
@@ -524,19 +543,4 @@
          ;;   :desc "Kill" "k" . 'polymode-kill-chunk
          ;;   :desc "Mark-Extend" "m" . 'polymode-mark-or-extend-chunk)
          ))
-  )
-
-;; Reftex
-;; Make RefTex able to find my local bib files
-(setq reftex-bibpath-environment-variables
-      '("/Users/kjhealy/Library/texmf/bibtex/bib"))
-
-;; Default bibliography
-(setq reftex-default-bibliography
-      '("/Users/kjhealy/Documents/bibs/socbib.bib"))
-
-;; Flycheck
-(after! flycheck
-  (map! :leader
-        (:prefix-map ("c" . "code")
-         "x" flycheck-command-map)))
+)
