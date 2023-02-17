@@ -13,7 +13,8 @@
      ((flycheck syntax-checker))
      (defvaralias)))
  '(warning-suppress-types
-   '(((flycheck syntax-checker))
+   '((doom-first-file-hook)
+     ((flycheck syntax-checker))
      ((flycheck syntax-checker))
      ((flycheck syntax-checker))
      ((flycheck syntax-checker))
