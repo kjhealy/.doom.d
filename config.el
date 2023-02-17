@@ -33,12 +33,13 @@
 ;; `load-theme' function. This is the default:
 
 (setq doom-theme 'doom-dracula)
-(setq doom-dracula-brighter-comments t)
-(setq doom-dracula-brighter-modeline t)
+;;(setq doom-dracula-brighter-comments t)
+;;(setq doom-dracula-brighter-modeline t)
+
 
 (with-eval-after-load 'doom-themes
-  (doom-themes-treemacs-config)
-  (doom-themes-org-config))
+ (doom-themes-treemacs-config)
+ (doom-themes-org-config))
 
 (after! treemacs
   (defvar treemacs-file-ignore-extensions '()
