@@ -22,8 +22,8 @@
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 
-(setq doom-font (font-spec :family "Berkeley Mono" :size 13 :weight 'regular)
-      doom-variable-pitch-font (font-spec :family "IBM Plex Sans" :size 14))
+(setq doom-font (font-spec :family "Berkeley Mono" :size 12 :weight 'regular)
+      doom-variable-pitch-font (font-spec :family "TT Supermolot Condensed" :size 14))
 
 (add-to-list 'default-frame-alist '(height . 24))
 (add-to-list 'default-frame-alist '(width . 80))
