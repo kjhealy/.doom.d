@@ -281,6 +281,12 @@
 (setq reftex-default-bibliography
       '("/Users/kjhealy/Documents/bibs/socbib.bib"))
 
+
+;; citar
+(setq! bibtex-completion-bibliography '("/Users/kjhealy/Documents/bibs/socbib.bib"))
+(setq! citar-bibliography '("/Users/kjhealy/Documents/bibs/socbib.bib"))
+(setq org-cite-csl-styles-dir "~/.pandoc/csl")
+
 ;; Flycheck
 (after! flycheck
   (map! :leader
