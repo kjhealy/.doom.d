@@ -35,6 +35,10 @@
 (setq doom-theme 'doom-dracula)
 ;;(setq doom-dracula-brighter-comments t)
 ;;(setq doom-dracula-brighter-modeline t)
+;;(setq doom-theme 'catppuccin)
+;;(setq catppuccin-flavor 'macchiato) ;; or 'latte, 'frappe, 'macchiato, or 'mocha
+;;(catppuccin-reload)
+
 
 
 (with-eval-after-load 'doom-themes
@@ -232,7 +236,11 @@
 ;; avy
 (map! "M-g g" #'avy-goto-line)
 (map! "M-g M-g" #'avy-goto-line)
-(map! "C-:" #'avy-goto-char)
+;; (map! "C-:" #'avy-goto-char)
+
+;; treemacs
+(map! "C-c :" #'treemacs-select-window)
+
 
 ;; comment region toggle
 (map! "C-c ;" #'comment-or-uncomment-region)
@@ -371,7 +379,25 @@
          :desc "Previous" "p" 'polymode-previous-chunk
          ;; (:prefix ("c" . "Chunks")
          ;;   :desc "Narrow" "n" . 'polymode-toggle-chunk-narrowing
+         ))
          ;;   :desc "Kill" "k" . 'polymode-kill-chunk
          ;;   :desc "Mark-Extend" "m" . 'polymode-mark-or-extend-chunk)
-         ))
 )
+
+
+;; tmux-pane
+(use-package! tmux-pane
+  :config
+  (tmux-pane-mode)
+  (map! :leader
+        (:prefix ("v" . "tmux pane")
+          :desc "Open vpane" :nv "o" #'tmux-pane-open-vertical
+          :desc "Open hpane" :nv "h" #'tmux-pane-open-horizontal
+          :desc "Open hpane" :nv "s" #'tmux-pane-open-horizontal
+          :desc "Open vpane" :nv "v" #'tmux-pane-open-vertical
+          :desc "Close pane" :nv "c" #'tmux-pane-close
+          :desc "Rerun last command" :nv "r" #'tmux-pane-rerun))
+  (map! :leader
+        (:prefix "t"
+          :desc "vpane" :nv "v" #'tmux-pane-toggle-vertical
+          :desc "hpane" :nv "h" #'tmux-pane-toggle-horizontal)))
