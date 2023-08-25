@@ -23,7 +23,16 @@
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 
 (setq doom-font (font-spec :family "Berkeley Mono" :size 12 :weight 'regular)
-      doom-variable-pitch-font (font-spec :family "TT Supermolot Condensed" :size 14))
+      doom-big-font (font-spec :family "Berkeley Mono" :size 16 :weight 'regular)
+      ;; doom-variable-pitch-font (font-spec :family "TT Supermolot Condensed" :size 14)
+      doom-variable-pitch-font (font-spec :family "Fabrikat Kompakt" :size 14)
+      )
+
+;; tweak
+;; If integer, it means pixels, added below each line.
+;; If float, a scaling factor relative to current window's default line height.
+;; If nil, add no extra spacing.
+(setq! line-spacing 0.15)
 
 (add-to-list 'default-frame-alist '(height . 24))
 (add-to-list 'default-frame-alist '(width . 80))
