@@ -20,8 +20,6 @@
 
 (unpin! polymode poly-R)
 
-(package! tmux-pane)
-
 ;; temporary fix for magit getting out of sync
 ;; https://emacs.stackexchange.com/questions/75827/doom-emacs-error-running-hook-global-git-commit-mode-because-void-variable
 (package! transient
