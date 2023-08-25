@@ -23,7 +23,16 @@
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 
 (setq doom-font (font-spec :family "Berkeley Mono" :size 12 :weight 'regular)
-      doom-variable-pitch-font (font-spec :family "TT Supermolot Condensed" :size 14))
+      doom-big-font (font-spec :family "Berkeley Mono" :size 16 :weight 'regular)
+      ;; doom-variable-pitch-font (font-spec :family "TT Supermolot Condensed" :size 14)
+      doom-variable-pitch-font (font-spec :family "Fabrikat Kompakt" :size 14)
+      )
+
+;; tweak
+;; If integer, it means pixels, added below each line.
+;; If float, a scaling factor relative to current window's default line height.
+;; If nil, add no extra spacing.
+(setq! line-spacing 0.15)
 
 (add-to-list 'default-frame-alist '(height . 24))
 (add-to-list 'default-frame-alist '(width . 80))
@@ -32,7 +41,8 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 
-(setq doom-theme 'doom-dracula)
+(setq doom-theme 'catppuccin)
+;;(setq doom-theme 'doom-dracula)
 ;;(setq doom-dracula-brighter-comments t)
 ;;(setq doom-dracula-brighter-modeline t)
 ;;(setq doom-theme 'catppuccin)
@@ -42,6 +52,7 @@
 
 
 (with-eval-after-load 'doom-themes
+ (setq catppuccin-flavor 'macchiato)
  (doom-themes-treemacs-config)
  (doom-themes-org-config))
 
@@ -364,9 +375,9 @@
   (insert (concat "```{r " header "}\n\n```"))
   (forward-line -1))
 
-  (add-to-list 'auto-mode-alist '("\\.Rmarkdown" . poly-markdown+r-mode))
-  (add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
-  (add-to-list 'auto-mode-alist '("\\.qmd" . poly-markdown+r-mode))
+  ;; (add-to-list 'auto-mode-alist '("\\.Rmarkdown" . poly-markdown+r-mode))
+  ;; (add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
+  ;; (add-to-list 'auto-mode-alist '("\\.qmd" . poly-markdown+r-mode))
   (map! (:localleader
          :map polymode-mode-map
          :desc "Export"   "e" 'polymode-export
