@@ -42,13 +42,14 @@
 ;; `load-theme' function. This is the default:
 
 (setq doom-theme 'catppuccin)
+(setq catppuccin-flavor 'latte)
+
 ;;(setq doom-theme 'doom-dracula)
 ;;(setq doom-dracula-brighter-comments t)
 ;;(setq doom-dracula-brighter-modeline t)
 
 
 (with-eval-after-load 'doom-themes
- (setq catppuccin-flavor 'macchiato)
  (doom-themes-treemacs-config)
  (doom-themes-org-config))
 
@@ -294,9 +295,18 @@
 
 
 ;; citar
-(setq! bibtex-completion-bibliography '("/Users/kjhealy/Documents/bibs/socbib.bib"))
-(setq! citar-bibliography '("/Users/kjhealy/Documents/bibs/socbib.bib"))
-(setq org-cite-csl-styles-dir "~/.pandoc/csl")
+;; biblio
+  (after! citar
+    (setq! bibtex-completion-bibliography '("/Users/kjhealy/Documents/bibs/socbib.bib"))
+    (setq! citar-bibliography '("/Users/kjhealy/Documents/bibs/socbib.bib"))
+    (setq! citar-library-paths '("/Users/kjhealy/Documents/bibs/files"))
+    (setq! citar-notes-paths '("Users/kjhealy/Documents/bibs/notes"))
+    (setq org-cite-csl-styles-dir "~/.pandoc/csl")
+    )
+
+;; Citar cite command is C-b
+(map! :prefix "C-c"
+      "b" #'citar-insert-keys)
 
 ;; Flycheck
 (after! flycheck
@@ -386,3 +396,9 @@
          ;;   :desc "Mark-Extend" "m" . 'polymode-mark-or-extend-chunk)
          ))
 )
+
+;; Deal with https://github.com/doomemacs/doomemacs/issues/5951#issuecomment-1696629418
+(after! tex
+  (map! :leader
+      (:when (modulep! :editor fold)
+       ("C-f" nil))))
