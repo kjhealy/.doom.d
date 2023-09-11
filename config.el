@@ -309,7 +309,7 @@
 
 ;; Citar cite command is C-b
 (map! :prefix "C-c"
-      "b" #'citar-insert-keys)
+      "b" #'citar-insert-citation)
 
 ;; Flycheck
 (after! flycheck
