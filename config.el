@@ -244,7 +244,11 @@
 ;; avy
 (map! "M-g g" #'avy-goto-line)
 (map! "M-g M-g" #'avy-goto-line)
-(map! "C-:" #'avy-goto-char)
+;; (map! "C-:" #'avy-goto-char)
+
+;; treemacs
+(map! "C-c :" #'treemacs-select-window)
+
 
 ;; comment region toggle
 (map! "C-c ;" #'comment-or-uncomment-region)
@@ -295,8 +299,6 @@
 
 
 ;; citar
-;; biblio
-  (after! citar
     (setq! bibtex-completion-bibliography '("/Users/kjhealy/Documents/bibs/socbib.bib"))
     (setq! citar-bibliography '("/Users/kjhealy/Documents/bibs/socbib.bib"))
     (setq! citar-library-paths '("/Users/kjhealy/Documents/bibs/files"))
@@ -392,10 +394,11 @@
          :desc "Previous" "p" 'polymode-previous-chunk
          ;; (:prefix ("c" . "Chunks")
          ;;   :desc "Narrow" "n" . 'polymode-toggle-chunk-narrowing
+         ))
          ;;   :desc "Kill" "k" . 'polymode-kill-chunk
          ;;   :desc "Mark-Extend" "m" . 'polymode-mark-or-extend-chunk)
-         ))
 )
+
 
 ;; Deal with https://github.com/doomemacs/doomemacs/issues/5951#issuecomment-1696629418
 (after! tex
