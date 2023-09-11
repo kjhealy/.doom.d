@@ -299,6 +299,7 @@
 
 
 ;; citar
+(after! citar
     (setq! bibtex-completion-bibliography '("/Users/kjhealy/Documents/bibs/socbib.bib"))
     (setq! citar-bibliography '("/Users/kjhealy/Documents/bibs/socbib.bib"))
     (setq! citar-library-paths '("/Users/kjhealy/Documents/bibs/files"))
