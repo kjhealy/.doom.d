@@ -41,8 +41,27 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 
-(setq doom-theme 'catppuccin)
-(setq catppuccin-flavor 'latte)
+;; (setq doom-theme 'catppuccin)
+;; (setq catppuccin-flavor 'latte)
+
+(setq doom-theme 'ef-frost)
+;; (setq doom-theme 'ef-maris-dark)
+
+(setq ef-themes-headings 
+      '((0 variable-pitch semibold 1.6)
+        (1 variable-pitch semibold 1.5)
+        (2 variable-pitch semibold 1.4)
+        (3 variable-pitch regular 1.3)
+        (4 variable-pitch regular 1.3)
+        (5 variable-pitch 1.3) ; absence of weight means `bold'
+        (6 variable-pitch 1.2)
+        (7 variable-pitch 1.2)
+        (t variable-pitch 1.1)))
+
+;; They are nil by default...
+(setq ef-themes-mixed-fonts t
+      ef-themes-variable-pitch-ui t)
+
 
 ;;(setq doom-theme 'doom-dracula)
 ;;(setq doom-dracula-brighter-comments t)
