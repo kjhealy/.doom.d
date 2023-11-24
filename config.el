@@ -1,9 +1,3 @@
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
-
-
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
 (setq user-full-name "Kieran Healy"
@@ -28,6 +22,9 @@
       doom-variable-pitch-font (font-spec :family "Fabrikat Kompakt" :size 14)
       )
 
+;; specify nerd font
+;(setq nerd-icons-font-names '("SymbolsNerdFontMono-Regular.ttf"))
+
 ;; tweak
 ;; If integer, it means pixels, added below each line.
 ;; If float, a scaling factor relative to current window's default line height.
@@ -44,8 +41,9 @@
 ;; (setq doom-theme 'catppuccin)
 ;; (setq catppuccin-flavor 'latte)
 
-(setq doom-theme 'ef-frost)
+;; (setq doom-theme 'ef-frost)
 ;; (setq doom-theme 'ef-maris-dark)
+(setq doom-theme 'doom-one)
 
 (setq ef-themes-headings 
       '((0 variable-pitch semibold 1.6)
@@ -62,6 +60,17 @@
 (setq ef-themes-mixed-fonts t
       ef-themes-variable-pitch-ui t)
 
+
+;; Projectile
+(setq projectile-project-search-path '(("~/Documents/source/" . 1)
+                                       ("~/Documents/data" . 1)
+                                       ("~/Documents/data/misc/" . 1)
+                                       ("~/Documents/courses/" . 1)
+                                       ("~/Documents/sites" . 1)
+                                       ("~/Documents/talks/" . 1)
+                                       ("~/Documents/ordinal-society" . 1)
+                                       ("~/Documents/papers" . 1)
+                                       "~/.doom.d"))
 
 ;;(setq doom-theme 'doom-dracula)
 ;;(setq doom-dracula-brighter-comments t)
@@ -255,7 +264,8 @@
 
 
 
-(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
+;; (remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
+(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-banner)
 (add-hook! '+doom-dashboard-mode-hook (hide-mode-line-mode 1) (hl-line-mode -1))
 (setq-hook! '+doom-dashboard-mode-hook evil-normal-state-cursor (list nil))
 

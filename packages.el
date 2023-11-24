@@ -22,25 +22,25 @@
 
 ;; temporary fix for magit getting out of sync
 ;; https://emacs.stackexchange.com/questions/75827/doom-emacs-error-running-hook-global-git-commit-mode-because-void-variable
-(package! transient
-      :pin "c2bdf7e12c530eb85476d3aef317eb2941ab9440"
-      :recipe (:host github :repo "magit/transient"))
+; (package! transient
+;      :pin "c2bdf7e12c530eb85476d3aef317eb2941ab9440"
+;      :recipe (:host github :repo "magit/transient"))
 
-(package! with-editor
-          :pin "bbc60f68ac190f02da8a100b6fb67cf1c27c53ab"
-          :recipe (:host github :repo "magit/with-editor"))
+;(package! with-editor
+;          :pin "bbc60f68ac190f02da8a100b6fb67cf1c27c53ab"
+;          :recipe (:host github :repo "magit/with-editor"))
 
 ;; Org-mode tables to GitHub-flavored markdown
 (package! ox-gfm)
 
 ;; citeproc for Org-mode
-(package! citeproc)
+;;(package! citeproc)
 
 ;; themes
-(package! ef-themes :recipe
-  (:host github
-   :repo "protesilaos/ef-themes"
-   :branch "main"))
+;;(package! ef-themes :recipe
+;;  (:host github
+;;   :repo "protesilaos/ef-themes"
+;;   :branch "main"))
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
@@ -77,6 +77,8 @@
 ;; Doom's packages are pinned to a specific commit and updated from release to
 ;; release. The `unpin!' macro allows you to unpin single packages...
 ;(unpin! pinned-package)
+; (unpin! magit transient consult compat with-editor)
+
 ;; ...or multiple packages
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
