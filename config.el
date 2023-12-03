@@ -25,10 +25,36 @@
 ;; specify nerd icons
 (setq nerd-icons-font-names '("SymbolsNerdFontMono-Regular.ttf"))
 
+
+(use-package! treemacs
+  :defer t
+  :init
+  (setq treemacs-follow-after-init t
+        treemacs-is-never-other-window t
+        treemacs-sorting 'alphabetic-case-insensitive-asc
+        treemacs-persist-file (concat doom-cache-dir "treemacs-persist")
+        treemacs-last-error-persist-file (concat doom-cache-dir "treemacs-last-error-persist"))
+  :config
+  ;; Don't follow the cursor
+  (treemacs-follow-mode -1)
+
+  (set-popup-rule! "^ ?\\*Treemacs" :ignore t)
+  (when +treemacs-git-mode
+    ;; If they aren't supported, fall back to simpler methods
+    (when (and (memq +treemacs-git-mode '(deferred extended))
+               (not treemacs-python-executable)
+               (not (executable-find "python3")))
+      (setq +treemacs-git-mode 'simple))
+    (treemacs-git-mode +treemacs-git-mode)
+    (setq treemacs-collapse-dirs
+          (if (memq +treemacs-git-mode '(extended deferred))
+              3
+            0))))
+
+
 (use-package! treemacs-nerd-icons
   :after treemacs
-  :config
-  (treemacs-load-theme "nerd-icons"))
+  :config (treemacs-load-theme "nerd-icons"))
 
 ;; tweak
 ;; If integer, it means pixels, added below each line.
