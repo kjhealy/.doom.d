@@ -22,8 +22,13 @@
       doom-variable-pitch-font (font-spec :family "Fabrikat Kompakt" :size 14)
       )
 
-;; specify nerd font
-;(setq nerd-icons-font-names '("SymbolsNerdFontMono-Regular.ttf"))
+;; specify nerd icons
+(setq nerd-icons-font-names '("NFM.ttf"))
+(use-package! nerd-icons-ibuffer
+  :ensure t
+  :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
+
+
 
 ;; tweak
 ;; If integer, it means pixels, added below each line.
@@ -45,20 +50,39 @@
 ;; (setq doom-theme 'ef-maris-dark)
 (setq doom-theme 'doom-one)
 
-(setq ef-themes-headings 
-      '((0 variable-pitch semibold 1.6)
-        (1 variable-pitch semibold 1.5)
-        (2 variable-pitch semibold 1.4)
-        (3 variable-pitch regular 1.3)
-        (4 variable-pitch regular 1.3)
-        (5 variable-pitch 1.3) ; absence of weight means `bold'
-        (6 variable-pitch 1.2)
-        (7 variable-pitch 1.2)
-        (t variable-pitch 1.1)))
+;; (setq ef-themes-headings
+;;       '((0 variable-pitch semibold 1.6)
+;;         (1 variable-pitch semibold 1.5)
+;;         (2 variable-pitch semibold 1.4)
+;;         (3 variable-pitch regular 1.3)
+;;         (4 variable-pitch regular 1.3)
+;;         (5 variable-pitch 1.3) ; absence of weight means `bold'
+;;         (6 variable-pitch 1.2)
+;;         (7 variable-pitch 1.2)
+;;         (t variable-pitch 1.1)))
 
 ;; They are nil by default...
-(setq ef-themes-mixed-fonts t
-      ef-themes-variable-pitch-ui t)
+;;(setq ef-themes-mixed-fonts t
+ ;;     ef-themes-variable-pitch-ui t)
+
+
+(setq corfu-auto-delay 0.5)
+(use-package! corfu
+  :config
+  (defun corfu-enable-in-minibuffer ()
+    "Enable Corfu in the minibuffer if `completion-at-point' is bound."
+    (when (where-is-internal #'completion-at-point (list (current-local-map)))
+      ;; (setq-local corfu-auto nil) ;; Enable/disable auto completion
+      (setq-local corfu-echo-delay nil ;; Disable automatic echo and popup
+                  corfu-popupinfo-delay nil)
+      (corfu-mode 1)))
+  (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer))
+
+(use-package! orderless
+  :config
+  (add-to-list 'orderless-matching-styles 'char-fold-to-regexp))
+
+(custom-set-faces! '((corfu-popupinfo) :height 0.9))
 
 
 ;; Projectile
@@ -131,6 +155,55 @@
         "*/_region_.tex"))
 
 
+(after! org
+  ;; Set some faces
+  (custom-set-faces!
+    `((org-quote)
+      :foreground ,(doom-color 'blue) :extend t)
+    `((org-block-begin-line org-block-end-line)
+      :background ,(doom-color 'bg)))
+  ;; Change how LaTeX and image previews are shown
+  (setq org-highlight-latex-and-related '(native entities script)
+        org-image-actual-width (min (/ (display-pixel-width) 3) 800)))
+
+;; (after! org-roam
+;;   ;; Define advise
+;;   (defun hp/org-roam-capf-add-kind-property (orig-fun &rest args)
+;;     "Advice around `org-roam-complete-link-at-point' to add :company-kind property."
+;;     (let ((result (apply orig-fun args)))
+;;       (append result '(:company-kind (lambda (_) 'org-roam)))))
+;;   ;; Wraps around the relevant functions
+;;   (advice-add 'org-roam-complete-link-at-point :around #'hp/org-roam-capf-add-kind-property)
+;;   (advice-add 'org-roam-complete-everywhere :around #'hp/org-roam-capf-add-kind-property))
+
+(after! org
+  ;; Prettification should ignore preceding letters
+  (defun prettify-symbols-compose-in-text-mode-p (start end _match)
+    "Similar to `prettify-symbols-default-compose-p' but ignore letters or words."
+    ;; Check that the chars should really be composed into a symbol.
+    (let* ((syntaxes-beg (if (memq (char-syntax (char-after start)) '(?_))
+                             '(?_) '(?. ?\\)))
+           (syntaxes-end (if (memq (char-syntax (char-before end)) '(?_))
+                             '(?_) '(?. ?\\))))
+      (not (or (memq (char-syntax (or (char-before start) ?\s)) syntaxes-beg)
+               (memq (char-syntax (or (char-after end) ?\s)) syntaxes-end)
+               ;; (nth 8 (syntax-ppss))
+               (org-in-src-block-p)
+               ))))
+  ;; Replace two consecutive hyphens with the em-dash
+  (defun kjh/org-mode-load-prettify-symbols ()
+    (interactive)
+    (pushnew! prettify-symbols-alist
+              '(":PROPERTIES:" . "")
+              '("--"  . "–") '("---" . "—")
+              '("(?)" . "") '("(?)." . ".") '("(?)," . ","))
+    (modify-syntax-entry ? " ")
+    (prettify-symbols-mode 1)
+    ;; Now, set the value of this
+    (setq-local prettify-symbols-compose-predicate 'prettify-symbols-compose-in-text-mode-p)
+    )
+  (when (not IS-WINDOWS)
+    (add-hook 'org-mode-hook 'kjh/org-mode-load-prettify-symbols)))
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -198,6 +271,65 @@
 (setq display-line-numbers-type nil)
 
 
+(use-package! org-modern
+  :hook (org-mode . org-modern-mode)
+  :config
+  (setq
+   ;; Edit settings
+   org-catch-invisible-edits 'show-and-error
+   org-special-ctrl-a/e t
+   org-insert-heading-respect-content t
+   ;; Appearance
+   org-modern-radio-target    '("❰" t "❱")
+   org-modern-internal-target '("↪ " t "")
+   org-modern-todo nil
+   org-modern-tag nil
+   org-modern-timestamp t
+   org-modern-statistics nil
+   org-modern-progress nil
+   org-modern-priority nil
+   org-modern-horizontal-rule "──────────"
+   org-modern-hide-stars "·"
+   org-modern-star ["⁖"]
+   org-modern-keyword "‣"
+   org-modern-list '((43 . "•")
+                     (45 . "–")
+                     (42 . "↪")))
+  (custom-set-faces!
+    `((org-modern-tag)
+      :background ,(doom-blend (doom-color 'blue) (doom-color 'bg) 0.1)
+      :foreground ,(doom-color 'grey))
+    `((org-modern-radio-target org-modern-internal-target)
+      :inherit 'default :foreground ,(doom-color 'blue)))
+  )
+
+(use-package! org-appear
+  :hook
+  (org-mode . org-appear-mode)
+  :config
+  (setq org-hide-emphasis-markers t
+        org-appear-autolinks 'just-brackets))
+
+(use-package! oc-csl-activate
+  :config
+  (setq org-cite-activate-processor 'csl-activate)
+  (setq org-cite-csl-activate-use-document-style t)
+  (setq org-cite-csl-activate-use-document-locale t)
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (cursor-sensor-mode 1)
+              (org-cite-csl-activate-render-all))))
+
+(after! org-src
+  (add-to-list 'org-src-block-faces '("latex" (:inherit default :extend t))))
+
+
+(use-package! lsp-ui
+  :config
+  (setq lsp-ui-doc-delay 2
+        lsp-ui-doc-max-width 80)
+  (setq lsp-signature-function 'lsp-signature-posframe))
+
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
@@ -263,7 +395,6 @@
 (global-set-key (kbd "C-x C-m") 'execute-extended-command)
 
 
-
 ;; (remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
 (remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-banner)
 (add-hook! '+doom-dashboard-mode-hook (hide-mode-line-mode 1) (hl-line-mode -1))
@@ -326,6 +457,19 @@
 (setq reftex-default-bibliography
       '("/Users/kjhealy/Documents/bibs/socbib.bib"))
 
+;; citar
+(use-package! citar
+  :hook
+  (LaTeX-mode . citar-capf-setup)
+  (org-mode . citar-capf-setup)
+  :config
+  (setq
+   citar-file-variable "file"
+   citar-symbol-separator "  "
+   ;; The global bibliography source may be set to something,
+   ;; but now let's set it on a per-file basis
+   ;; org-cite-global-bibliography citar-bibliography
+   ))
 
 ;; citar
 (after! citar
@@ -334,7 +478,16 @@
     (setq! citar-library-paths '("/Users/kjhealy/Documents/bibs/files"))
     (setq! citar-notes-paths '("Users/kjhealy/Documents/bibs/notes"))
     (setq org-cite-csl-styles-dir "~/.pandoc/csl")
-    )
+
+  ;; Define advise
+  (defun kjh/citar-capf-add-kind-property (orig-fun &rest args)
+    "Advice around `org-roam-complete-link-at-point' to add :company-kind property."
+    (let ((result (apply orig-fun args)))
+      (append result '(:company-kind (lambda (_) 'reference)))))
+  ;; Wraps around the relevant functions
+  (advice-add 'citar-capf :around #'kjh/citar-capf-add-kind-property)
+  )
+
 
 ;; Citar cite command is C-b
 (map! :prefix "C-c"
@@ -385,11 +538,12 @@
   (define-key ess-mode-map "_" #'ess-insert-assign)
   (define-key inferior-ess-mode-map "_" #'ess-insert-assign)
 
+  ;; base pipe shortcut like RStudio cmd-shift-m
   (defun kjh/then-R-operator ()
-    "R - %>% operator or 'then' pipe operator"
+    "R - |> operator or 'then' pipe operator"
     (interactive)
     (just-one-space 1)
-    (insert "%>%")
+    (insert "|>")
     (reindent-then-newline-and-indent))
   (define-key ess-mode-map (kbd "C-|") 'kjh/then_R_operator)
   (define-key inferior-ess-mode-map (kbd "C-|") 'kjh/then-R-operator)
