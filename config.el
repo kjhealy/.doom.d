@@ -23,12 +23,12 @@
       )
 
 ;; specify nerd icons
-(setq nerd-icons-font-names '("NFM.ttf"))
-(use-package! nerd-icons-ibuffer
-  :ensure t
-  :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
+(setq nerd-icons-font-names '("SymbolsNerdFontMono-Regular.ttf"))
 
-
+(use-package! treemacs-nerd-icons
+  :after treemacs
+  :config
+  (treemacs-load-theme "nerd-icons"))
 
 ;; tweak
 ;; If integer, it means pixels, added below each line.
@@ -111,6 +111,11 @@
 (with-eval-after-load 'doom-themes
  (doom-themes-treemacs-config)
  (doom-themes-org-config))
+
+(use-package treemacs-nerd-icons
+  :after treemacs
+  :config
+  (treemacs-load-theme "nerd-icons"))
 
 (after! treemacs
   (defvar treemacs-file-ignore-extensions '()
