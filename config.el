@@ -138,11 +138,6 @@
  (doom-themes-treemacs-config)
  (doom-themes-org-config))
 
-(use-package treemacs-nerd-icons
-  :after treemacs
-  :config
-  (treemacs-load-theme "nerd-icons"))
-
 (after! treemacs
   (defvar treemacs-file-ignore-extensions '()
     "File extension which `treemacs-ignore-filter' will ensure are ignored")
@@ -160,7 +155,8 @@
         (let ((ignore-file nil))
           (dolist (regexp treemacs-file-ignore-regexps ignore-file)
             (setq ignore-file (or ignore-file (if (string-match-p regexp full-path) t nil)))))))
-  (add-to-list 'treemacs-ignored-file-predicates #'treemacs-ignore-filter))
+  (add-to-list 'treemacs-ignored-file-predicates #'treemacs-ignore-filter)
+  (treemacs-load-theme "nerd-icons"))
 
 (setq treemacs-file-ignore-extensions
       '(;; LaTeX
