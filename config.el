@@ -597,5 +597,3 @@
       (:when (modulep! :editor fold)
        ("C-f" nil))))
 
-;; turn off annoying message
-(setq confirm-kill-emacs nil)
