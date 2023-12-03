@@ -84,6 +84,13 @@
 
 (custom-set-faces! '((corfu-popupinfo) :height 0.9))
 
+;; Change the shortcut key for completion-at-point and restore
+;; cmd-space as set mark
+(map! :unless (modulep! +tng) :gi "C-S-SPC" #'completion-at-point)
+
+(map! "C-SPC" #'set-mark-command)
+
+
 
 ;; Projectile
 (setq projectile-project-search-path '(("~/Documents/source/" . 1)
@@ -589,3 +596,6 @@
   (map! :leader
       (:when (modulep! :editor fold)
        ("C-f" nil))))
+
+;; turn off annoying message
+(setq confirm-kill-emacs nil)
