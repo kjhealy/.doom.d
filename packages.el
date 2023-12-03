@@ -67,7 +67,11 @@
 (package! org-special-block-extras
   :recipe (:host github :repo "alhassy/org-special-block-extras"))
 
-
+;; nerd icons corfu
+(package! nerd-icons-corfu
+	:recipe (:host github :repo "LuigiPiucco/nerd-icons-corfu")
+	:pin "7077bb76fefc15aed967476406a19dc5c2500b3c"
+)
 
 ;; Org-mode tables to GitHub-flavored markdown
 (package! ox-gfm)
