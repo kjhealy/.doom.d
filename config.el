@@ -16,45 +16,11 @@
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 
-(setq doom-font (font-spec :family "Berkeley Mono" :size 12 :weight 'regular)
+(setq doom-font (font-spec :family "Berkeley Mono" :size 14 :weight 'regular)
       doom-big-font (font-spec :family "Berkeley Mono" :size 16 :weight 'regular)
       ;; doom-variable-pitch-font (font-spec :family "TT Supermolot Condensed" :size 14)
       doom-variable-pitch-font (font-spec :family "Fabrikat Kompakt" :size 14)
       )
-
-;; specify nerd icons
-(setq nerd-icons-font-names '("SymbolsNerdFontMono-Regular.ttf"))
-
-
-(use-package! treemacs
-  :defer t
-  :init
-  (setq treemacs-follow-after-init t
-        treemacs-is-never-other-window t
-        treemacs-sorting 'alphabetic-case-insensitive-asc
-        treemacs-persist-file (concat doom-cache-dir "treemacs-persist")
-        treemacs-last-error-persist-file (concat doom-cache-dir "treemacs-last-error-persist"))
-  :config
-  ;; Don't follow the cursor
-  (treemacs-follow-mode -1)
-
-  (set-popup-rule! "^ ?\\*Treemacs" :ignore t)
-  (when +treemacs-git-mode
-    ;; If they aren't supported, fall back to simpler methods
-    (when (and (memq +treemacs-git-mode '(deferred extended))
-               (not treemacs-python-executable)
-               (not (executable-find "python3")))
-      (setq +treemacs-git-mode 'simple))
-    (treemacs-git-mode +treemacs-git-mode)
-    (setq treemacs-collapse-dirs
-          (if (memq +treemacs-git-mode '(extended deferred))
-              3
-            0))))
-
-
-(use-package! treemacs-nerd-icons
-  :after treemacs
-  :config (treemacs-load-theme "nerd-icons"))
 
 ;; tweak
 ;; If integer, it means pixels, added below each line.
@@ -74,7 +40,9 @@
 
 ;; (setq doom-theme 'ef-frost)
 ;; (setq doom-theme 'ef-maris-dark)
-(setq doom-theme 'doom-one)
+;; (setq doom-theme 'doom-one)
+(setq doom-theme 'kanagawa)
+(setq kanagawa-theme-keyword-italic 'nil)
 
 ;; (setq ef-themes-headings
 ;;       '((0 variable-pitch semibold 1.6)
@@ -138,7 +106,35 @@
  (doom-themes-treemacs-config)
  (doom-themes-org-config))
 
-(after! treemacs
+
+;; specify nerd icons
+(setq nerd-icons-font-names '("SymbolsNerdFontMono-Regular.ttf"))
+
+
+(use-package! treemacs
+  :init
+  (setq treemacs-follow-after-init t
+        treemacs-is-never-other-window t
+        treemacs-sorting 'alphabetic-case-insensitive-asc
+        treemacs-persist-file (concat doom-cache-dir "treemacs-persist")
+        treemacs-last-error-persist-file (concat doom-cache-dir "treemacs-last-error-persist"))
+  :config
+  ;; Don't follow the cursor
+  (treemacs-follow-mode -1)
+
+  (set-popup-rule! "^ ?\\*Treemacs" :ignore t)
+  (when +treemacs-git-mode
+    ;; If they aren't supported, fall back to simpler methods
+    (when (and (memq +treemacs-git-mode '(deferred extended))
+               (not treemacs-python-executable)
+               (not (executable-find "python3")))
+      (setq +treemacs-git-mode 'simple))
+    (treemacs-git-mode +treemacs-git-mode)
+    (setq treemacs-collapse-dirs
+          (if (memq +treemacs-git-mode '(extended deferred))
+              3
+            0))))
+  (treemacs-load-theme "nerd-icons")
   (defvar treemacs-file-ignore-extensions '()
     "File extension which `treemacs-ignore-filter' will ensure are ignored")
   (defvar treemacs-file-ignore-globs '()
@@ -156,7 +152,6 @@
           (dolist (regexp treemacs-file-ignore-regexps ignore-file)
             (setq ignore-file (or ignore-file (if (string-match-p regexp full-path) t nil)))))))
   (add-to-list 'treemacs-ignored-file-predicates #'treemacs-ignore-filter)
-  (treemacs-load-theme "nerd-icons"))
 
 (setq treemacs-file-ignore-extensions
       '(;; LaTeX
