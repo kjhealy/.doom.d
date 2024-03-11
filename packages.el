@@ -21,6 +21,9 @@
 
 (unpin! polymode poly-R)
 
+;; fucking emacs man
+(package! all-the-icons)
+
 ;; ORG-MODE
 ;; Org-mode from tecosaur's development branch
 ;; (package! org :recipe
@@ -63,9 +66,9 @@
 (package! org-special-block-extras
   :recipe (:host github :repo "alhassy/org-special-block-extras"))
 
-(package! treemacs-nerd-icons
-  :recipe (:host github :repo "rainstormstudio/treemacs-nerd-icons")
-        :pin "9876cb478145a0ec4e36f64ff6583f3de7126216")
+(package! treemacs-nerd-icons)
+;;  :recipe (:host github :repo "rainstormstudio/treemacs-nerd-icons")
+;;        :pin "9876cb478145a0ec4e36f64ff6583f3de7126216")
 
 ;; (package! treemacs :pin "fe471314f198f9aff268637a766a6ade0a5b5d96")
 ;;
