@@ -36,12 +36,12 @@
 ;; `load-theme' function. This is the default:
 
 ;; (setq doom-theme 'catppuccin)
-;; (setq catppuccin-flavor 'latte)
+;; (setq catppuccin-flavor 'mocha)
 
 ;; (setq doom-theme 'ef-frost)
 ;; (setq doom-theme 'ef-maris-dark)
 ;; (setq doom-theme 'doom-one)
-(setq doom-theme 'kanagawa)
+(setq doom-theme 'kanagawa-wave)
 (setq kanagawa-theme-keyword-italic 'nil)
 
 ;; (setq ef-themes-headings

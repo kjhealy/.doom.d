@@ -10,7 +10,7 @@
 ;(package! some-package)
 
 (package! spacemacs-theme)
-(package! kanagawa-theme)
+(package! kanagawa-themes)
 
 (package! switch-buffer-functions)
 
