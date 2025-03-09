@@ -16,10 +16,10 @@
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 
-(setq doom-font (font-spec :family "Berkeley Mono" :size 14 :weight 'regular)
-      doom-big-font (font-spec :family "Berkeley Mono" :size 16 :weight 'regular)
+(setq doom-font (font-spec :family "TX-02 SemiCondensed" :size 12 :weight 'regular)
+      doom-big-font (font-spec :family "TX-02 Condensed" :size 16 :weight 'regular)
       ;; doom-variable-pitch-font (font-spec :family "TT Supermolot Condensed" :size 14)
-      doom-variable-pitch-font (font-spec :family "Fabrikat Kompakt" :size 14)
+      doom-variable-pitch-font (font-spec :family "TX-02 UltraCondensed" :size 14 :weight 'bold)
       )
 
 ;; tweak
